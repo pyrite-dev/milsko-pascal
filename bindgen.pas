@@ -12,7 +12,7 @@ type
 var
 	XML : TXMLDocument;
 	Prop : TPropDict;
-	EnumOut, PropOut, ConstOut : TextFile;
+	StructOut, EnumOut, PropOut, ConstOut, FuncDefOut : TextFile;
 
 function PropToString(PropName : String) : String;
 begin
@@ -30,12 +30,16 @@ end;
 function TypeToPascal(Node : TDOMNode) : String;
 begin
 	TypeToPascal := '';
-	if (Node.NodeName = 'integer') and (TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := 'Cardinal';
-	if (Node.NodeName = 'integer') and not(TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := 'Integer';
-	if Node.NodeName = 'string' then TypeToPascal := 'PChar';
-	if Node.NodeName = 'class' then TypeToPascal := 'Pointer';
-	if Node.NodeName = 'pointer' then TypeToPascal := 'Pointer';
-	if Node.NodeName = 'widget' then TypeToPascal := 'Pointer';
+	if TDOMElement(Node).GetAttribute('pointer') = 'yes' then TypeToPascal := TypeToPascal + 'P';
+	if Node.NodeName = 'struct' then TypeToPascal := TypeToPascal + String(TDOMElement(Node).GetAttribute('defname'));
+	if (Node.NodeName = 'integer') and (TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Cardinal';
+	if (Node.NodeName = 'integer') and not(TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Integer';
+	if Node.NodeName = 'string' then TypeToPascal := TypeToPascal + 'PChar';
+	if Node.NodeName = 'class' then TypeToPascal := TypeToPascal + 'MwClass';
+	if Node.NodeName = 'pointer' then TypeToPascal := TypeToPascal + 'Pointer';
+	if Node.NodeName = 'widget' then TypeToPascal := TypeToPascal + 'MwWidget';
+	if Node.NodeName = 'handler' then TypeToPascal := TypeToPascal + 'MwUserHandler';
+	if Node.NodeName = 'error_handler' then TypeToPascal := TypeToPascal + 'MwErrorHandler';
 end;
 
 procedure ScanProperties();
@@ -54,7 +58,7 @@ begin
 
 		Prop[String(TDOMElement(Child).GetAttribute('name'))] := TDOMElement(Child);
 
-		WriteLn(PropOut, '	MwN' + TDOMElement(Child).GetAttribute('name') + ' : PChar = ''' + PropToString(TDOMElement(Child).GetAttribute('name')) + ''';');
+		WriteLn(PropOut, '	MwN' + String(TDOMElement(Child).GetAttribute('name')) + ' : PChar = ''' + PropToString(String(TDOMElement(Child).GetAttribute('name'))) + ''';');
 
 		Child := Child.NextSibling;
 	end;
@@ -74,10 +78,13 @@ procedure ScanEnumeration(Node : TDOMNode);
 var
 	Child : TDOMNode;
 	Content : String;
+	EnumName : String;
 begin
-	WriteLn('Enumeration ' + TDOMElement(Node).GetAttribute('name'));
+	EnumName := String(TDOMElement(Node).GetAttribute('name'));
 
-	Write(EnumOut, '	' + TDOMElement(Node).GetAttribute('name') + ' = (');
+	WriteLn('Enumeration ' + EnumName);
+
+	Write(EnumOut, '	' + EnumName + ' = (');
 
 	Child := Node.FirstChild;
 	while Assigned(Child) do
@@ -128,31 +135,223 @@ begin
 	Child := List[0].FirstChild;
 	while Assigned(Child) do
 	begin
-		WriteLn(ConstOut, '	' + TDOMElement(Child).GetAttribute('name') + ' : Integer = ' + IntegerTrans(Child.TextContent) + ';');
+		WriteLn(ConstOut, '	' + String(TDOMElement(Child).GetAttribute('name')) + ' : Integer = ' + IntegerTrans(String(Child.TextContent)) + ';');
+		Child := Child.NextSibling;
+	end;
+	List.Free();
+end;
+
+procedure ScanStruct(Node : TDOMNode);
+var
+	Child : TDOMNode;
+	StructName : String;
+begin
+	StructName := String(TDOMElement(Node).GetAttribute('name'));
+
+	WriteLn('Struct ' + StructName);
+
+	WriteLn(StructOut, '	' + StructName + ' = packed record');
+
+	Child := Node.FirstChild;
+	while Assigned(Child) do
+	begin
+		WriteLn(StructOut, '		' + String(TDOMElement(Child).GetAttribute('name')) + ' : ' + TypeToPascal(Child) + ';');
+		Child := Child.NextSibling;
+	end;
+
+	WriteLn(StructOut, '	end;');
+	WriteLn(StructOut, '	P' + StructName + ' = ^' + StructName + ';');
+end;
+
+procedure ScanStructs();
+var
+	Child : TDOMNode;
+	List : TDOMNodeList;
+begin
+	List := XML.DocumentElement.GetElementsByTagName('structs');
+
+	WriteLn(StructOut, 'type');
+
+	Child := List[0].FirstChild;
+	while Assigned(Child) do
+	begin
+		if Child.NodeName = 'struct' then ScanStruct(Child);
+		Child := Child.NextSibling;
+	end;
+	List.Free();
+end;
+
+function GetReturn(Node : TDOMNode) : TDOMNode;
+var
+	List : TDOMNodeList;
+begin
+	List := TDOMElement(Node).GetElementsByTagName('return');
+
+	GetReturn := List[0].FirstChild;
+
+	List.Free();
+end;
+
+function HasReturn(Node : TDOMNode) : Boolean;
+var
+	List : TDOMNodeList;
+begin
+	List := TDOMElement(Node).GetElementsByTagName('return');
+
+	HasReturn := List.Count > 0;
+
+	List.Free();
+end;
+
+function GetArgs(Node : TDOMNode) : TDOMNode;
+var
+	List : TDOMNodeList;
+begin
+	List := TDOMElement(Node).GetElementsByTagName('arguments');
+
+	GetArgs := List[0];
+
+	List.Free();
+end;
+
+function HasArgs(Node : TDOMNode) : Boolean;
+var
+	List : TDOMNodeList;
+begin
+	List := TDOMElement(Node).GetElementsByTagName('arguments');
+
+	HasArgs := List.Count > 0;
+
+	List.Free();
+end;
+
+procedure ScanFunction(Prefix : String; Node : TDOMNode);
+var
+	FuncName : String;
+	Ret : TDOMNode;
+	Child : TDOMNode;
+	HasVa : Boolean;
+begin
+	FuncName := Prefix + String(TDOMElement(Node).GetAttribute('name'));
+
+	WriteLn('Function ' + FuncName);
+
+	if HasReturn(Node) then
+	begin
+		Write(FuncDefOut, 'function ');
+
+		Ret := GetReturn(Node);
+	end
+	else Write(FuncDefOut, 'procedure ');
+
+	Write(FuncDefOut, FuncName);
+
+	HasVa := False;
+	Write(FuncDefOut, '(');
+	if HasArgs(Node) then
+	begin
+		Child := GetArgs(Node).FirstChild;
+		while Assigned(Child) do
+		begin
+			if Child.NodeName = 'variable' then
+			begin
+				HasVa := True;
+			end
+			else
+			begin
+				Write(FuncDefOut, String(TDOMElement(Child).GetAttribute('name')) + ' : ' + TypeToPascal(Child));
+
+				if (Assigned(Child.NextSibling)) and not(Child.NextSibling.NodeName = 'variable') then Write(FuncDefOut, '; ');
+			end;
+
+			Child := Child.NextSibling;
+		end;
+	end;
+	Write(FuncDefOut, ')');
+
+	if HasReturn(Node) then
+	begin
+		Write(FuncDefOut, ' : ' + TypeToPascal(Ret));
+	end;
+
+	Write(FuncDefOut, '; cdecl; ');
+	if HasVa then Write(FuncDefOut, 'varargs; ');
+	WriteLn(FuncDefOut, 'external name ''' + FuncName + ''';');
+end;
+
+procedure ScanFunctions(Prefix : String; Node : TDOMNode);
+var
+	Child : TDOMNode;
+begin
+	Child := Node.FirstChild;
+	while Assigned(Child) do
+	begin
+		if Child.NodeName = 'function' then ScanFunction(Prefix, Child);
+		Child := Child.NextSibling;
+	end;
+end;
+
+procedure ScanHeader(Node : TDOMNode);
+var
+	Child : TDOMNode;
+begin
+	WriteLn('Header ' + TDOMElement(Node).GetAttribute('name'));
+
+	WriteLn(FuncDefOut, '(* Header ' + TDOMElement(Node).GetAttribute('name') + ' *)');
+
+	Child := Node.FirstChild;
+	while Assigned(Child) do
+	begin
+		if Child.NodeName = 'functions' then ScanFunctions('', Child);
+		Child := Child.NextSibling;
+	end;
+
+	WriteLn(FuncDefOut, '');
+end;
+
+procedure ScanHeaders();
+var
+	Child : TDOMNode;
+	List : TDOMNodeList;
+begin
+	List := XML.DocumentElement.GetElementsByTagName('headers');
+
+	Child := List[0].FirstChild;
+	while Assigned(Child) do
+	begin
+		if Child.NodeName = 'header' then ScanHeader(Child);
 		Child := Child.NextSibling;
 	end;
 	List.Free();
 end;
 
 begin
+	AssignFile(StructOut, 'src/structh.inc');
 	AssignFile(PropOut, 'src/proph.inc');
 	AssignFile(EnumOut, 'src/enumh.inc');
 	AssignFile(ConstOut, 'src/consth.inc');
+	AssignFile(FuncDefOut, 'src/funch.inc');
 
+	Rewrite(StructOut);
 	Rewrite(PropOut);
 	Rewrite(EnumOut);
 	Rewrite(ConstOut);
+	Rewrite(FuncDefOut);
 
 	Prop := TPropDict.Create();
 
 	ReadXMLFile(XML, 'milsko/milsko.xml');
+	ScanStructs();
 	ScanProperties();
 	ScanEnumerations();
 	ScanConstants();
+	ScanHeaders();
 
 	XML.Free();
 
+	CloseFile(FuncDefOut);
 	CloseFile(ConstOut);
 	CloseFile(EnumOut);
 	CloseFile(PropOut);
+	CloseFile(StructOut);
 end.
