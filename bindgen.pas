@@ -3,7 +3,8 @@ program bindgen;
 uses
 	DOM,
 	XMLRead,
-	FGL;
+	FGL,
+	Sysutils;
 
 type
 	TPropDict = specialize TFPGMap<String, TDOMElement>;
@@ -11,6 +12,7 @@ type
 var
 	XML : TXMLDocument;
 	Prop : TPropDict;
+	EnumOut : TextFile;
 
 function PropToString(PropName : String) : String;
 begin
@@ -41,6 +43,12 @@ begin
 	List.Free();
 end;
 
+procedure ScanEnumeration(Node : TDOMNode);
+var
+	Child : TDOMNode;
+begin
+end;
+
 procedure ScanEnumerations();
 var
 	Child : TDOMNode;
@@ -51,17 +59,25 @@ begin
 	Child := List[0].FirstChild;
 	while Assigned(Child) do
 	begin
+		if Child.NodeName = 'enumeration' then ScanEnumeration(Child);
 		Child := Child.NextSibling;
 	end;
 	List.Free();
 end;
 
 begin
+	AssignFile(EnumOut, 'src/enumh.inc');
+
+	Rewrite(EnumOut);
+
 	Prop := TPropDict.Create();
 
 	ReadXMLFile(XML, 'milsko/milsko.xml');
 	ScanProperties();
+	WriteLn(IntToStr(Prop.Count) + ' properties');
 	ScanEnumerations();
 
 	XML.Free();
+
+	CloseFile(EnumOut);
 end.
