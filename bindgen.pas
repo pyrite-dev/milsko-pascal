@@ -12,8 +12,7 @@ type
 var
 	XML : TXMLDocument;
 	Prop : TPropDict;
-	EnumOut : TextFile;
-	PropOut : TextFile;
+	EnumOut, PropOut, ConstOut : TextFile;
 
 function PropToString(PropName : String) : String;
 begin
@@ -33,6 +32,10 @@ begin
 	TypeToPascal := '';
 	if (Node.NodeName = 'integer') and (TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := 'Cardinal';
 	if (Node.NodeName = 'integer') and not(TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := 'Integer';
+	if Node.NodeName = 'string' then TypeToPascal := 'PChar';
+	if Node.NodeName = 'class' then TypeToPascal := 'Pointer';
+	if Node.NodeName = 'pointer' then TypeToPascal := 'Pointer';
+	if Node.NodeName = 'widget' then TypeToPascal := 'Pointer';
 end;
 
 procedure ScanProperties();
@@ -63,7 +66,7 @@ begin
 	IntegerTrans := Content;
 	if (Length(Content) > 2) and (Copy(Content, 1, 2) = '0x') then
 	begin
-		IntegerTrans := '&' + Copy(Content, 3);
+		IntegerTrans := '$' + Copy(Content, 3);
 	end;
 end;
 
@@ -113,21 +116,43 @@ begin
 	List.Free();
 end;
 
+procedure ScanConstants();
+var
+	Child : TDOMNode;
+	List : TDOMNodeList;
+begin
+	List := XML.DocumentElement.GetElementsByTagName('constants');
+
+	WriteLn(ConstOut, 'const');
+
+	Child := List[0].FirstChild;
+	while Assigned(Child) do
+	begin
+		WriteLn(ConstOut, '	' + TDOMElement(Child).GetAttribute('name') + ' : Integer = ' + IntegerTrans(Child.TextContent) + ';');
+		Child := Child.NextSibling;
+	end;
+	List.Free();
+end;
+
 begin
 	AssignFile(PropOut, 'src/proph.inc');
 	AssignFile(EnumOut, 'src/enumh.inc');
+	AssignFile(ConstOut, 'src/consth.inc');
 
 	Rewrite(PropOut);
 	Rewrite(EnumOut);
+	Rewrite(ConstOut);
 
 	Prop := TPropDict.Create();
 
 	ReadXMLFile(XML, 'milsko/milsko.xml');
 	ScanProperties();
 	ScanEnumerations();
+	ScanConstants();
 
 	XML.Free();
 
+	CloseFile(ConstOut);
 	CloseFile(EnumOut);
 	CloseFile(PropOut);
 end.

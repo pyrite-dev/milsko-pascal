@@ -5,6 +5,7 @@ unit MwBind;
 interface
 {$i proph.inc}
 {$i enumh.inc}
+{$i consth.inc}
 
 implementation
 
