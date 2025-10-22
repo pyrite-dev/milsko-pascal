@@ -1,7 +1,7 @@
 (* Header Core *)
 function MwCreateWidget(widget_class : MwClass; name : PChar; parent : MwWidget; x : Integer; y : Integer; width : Cardinal; height : Cardinal) : MwWidget; cdecl; external name 'MwCreateWidget';
 function MwVaCreateWidget(widget_class : MwClass; name : PChar; parent : MwWidget; x : Integer; y : Integer; width : Cardinal; height : Cardinal) : MwWidget; cdecl; varargs; external name 'MwVaCreateWidget';
-procedure MwWidgetExecute(handle : MwWidget; func_name : PChar; output : Pointer); cdecl; varargs; external name 'MwWidgetExecute';
+procedure MwVaWidgetExecute(handle : MwWidget; func_name : PChar; output : Pointer); cdecl; varargs; external name 'MwVaWidgetExecute';
 procedure MwDestroyWidget(handle : MwWidget); cdecl; external name 'MwDestroyWidget';
 procedure MwLoop(handle : MwWidget); cdecl; external name 'MwLoop';
 procedure MwStep(handle : MwWidget); cdecl; external name 'MwStep';
@@ -31,17 +31,17 @@ function MwGetLastError() : PChar; cdecl; external name 'MwGetLastError';
 (* Header FileChooser *)
 function MwFileChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwFileChooser';
 
+(* Header MessageBox *)
+function MwMessageBox(handle : MwWidget; text : PChar; title : PChar; flag : Cardinal) : MwWidget; cdecl; external name 'MwMessageBox';
+function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cdecl; external name 'MwMessageBoxGetChild';
+procedure MwMessageBoxDestroy(handle : MwWidget); cdecl; external name 'MwMessageBoxDestroy';
+
 (* Header Widget/ListBox.h *)
 function MwListBoxCreatePacket() : Pointer; cdecl; external name 'MwListBoxCreatePacket';
 procedure MwListBoxDestroyPacket(packet : Pointer); cdecl; external name 'MwListBoxDestroyPacket';
 function MwListBoxPacketInsert(packet : Pointer; index : Integer) : Integer; cdecl; external name 'MwListBoxPacketInsert';
 procedure MwListBoxPacketSet(packet : Pointer; index : Integer; col : Integer; text : PChar); cdecl; external name 'MwListBoxPacketSet';
 procedure MwListBoxPacketSetIcon(packet : Pointer; index : Integer; icon : MwLLPixmap); cdecl; external name 'MwListBoxPacketSetIcon';
-
-(* Header MessageBox *)
-function MwMessageBox(handle : MwWidget; text : PChar; title : PChar; flag : Cardinal) : MwWidget; cdecl; external name 'MwMessageBox';
-function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cdecl; external name 'MwMessageBoxGetChild';
-procedure MwMessageBoxDestroy(handle : MwWidget); cdecl; external name 'MwMessageBoxDestroy';
 
 (* Widget Button *)
 

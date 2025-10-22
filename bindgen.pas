@@ -12,7 +12,7 @@ type
 var
 	XML : TXMLDocument;
 	Prop : TPropDict;
-	StructOut, EnumOut, PropOut, ConstOut, FuncDefOut, VarOut : TextFile;
+	StructOut, EnumOut, PropOut, ConstOut, FuncDefOut, VarOut, FuncOut : TextFile;
 
 function PropToString(PropName : String) : String;
 begin
@@ -232,29 +232,32 @@ var
 	Ret : TDOMNode;
 	Child : TDOMNode;
 	HasVa : Boolean;
+	FuncDecl : String;
 begin
 	FuncName := Prefix + String(TDOMElement(Node).GetAttribute('name'));
+
+	FuncDecl := '';
 
 	WriteLn('Function ' + FuncName);
 
 	if HasReturn(Node) then
 	begin
-		Write(FuncDefOut, 'function ');
+		FuncDecl := FuncDecl + 'function ';
 
 		Ret := GetReturn(Node);
 	end
-	else Write(FuncDefOut, 'procedure ');
+	else FuncDecl := FuncDecl + 'procedure ';
 
-	Write(FuncDefOut, FuncName);
+	FuncDecl := FuncDecl + FuncName;
 
 	HasVa := False;
-	Write(FuncDefOut, '(');
+	FuncDecl := FuncDecl + '(';
 	if Length(Prefix) > 0 then
 	begin
-		Write(FuncDefOut, 'handle : MwWidget');
+		FuncDecl := FuncDecl + 'handle : MwWidget';
 		if HasArgs(Node) then
 		begin
-			Write(FuncDefOut, '; ');
+			FuncDecl := FuncDecl + '; ';
 		end;
 	end;
 
@@ -269,31 +272,66 @@ begin
 			end
 			else
 			begin
-				Write(FuncDefOut, String(TDOMElement(Child).GetAttribute('name')) + ' : ' + TypeToPascal(Child));
+				FuncDecl := FuncDecl + String(TDOMElement(Child).GetAttribute('name')) + ' : ' + TypeToPascal(Child);
 
-				if (Assigned(Child.NextSibling)) and not(Child.NextSibling.NodeName = 'variable') then Write(FuncDefOut, '; ');
+				if (Assigned(Child.NextSibling)) and not(Child.NextSibling.NodeName = 'variable') then FuncDecl := FuncDecl + '; ';
 			end;
 
 			Child := Child.NextSibling;
 		end;
 	end;
-	Write(FuncDefOut, ')');
+	FuncDecl := FuncDecl + ')';
 
 	if HasReturn(Node) then
 	begin
-		Write(FuncDefOut, ' : ' + TypeToPascal(Ret));
+		FuncDecl := FuncDecl + ' : ' + TypeToPascal(Ret);
 	end;
 
 	if Length(Prefix) = 0 then
 	begin
-		Write(FuncDefOut, '; cdecl; ');
-		if HasVa then Write(FuncDefOut, 'varargs; ');
-		WriteLn(FuncDefOut, 'external name ''' + FuncName + ''';');
+		FuncDecl := FuncDecl + '; cdecl; ';
+		if HasVa then FuncDecl := FuncDecl + 'varargs; ';
+		FuncDecl := FuncDecl + 'external name ''' + FuncName + ''';';
 	end
 	else
 	begin
-		WriteLn(FuncDefOut, ';');
+		FuncDecl := FuncDecl + ';';
+
+		WriteLn(FuncOut, FuncDecl);
+		if HasReturn(Node) then
+		begin
+			WriteLn(FuncOut, 'var');
+			WriteLn(FuncOut, '	RetVal : ' + TypeToPascal(Ret) + ';');
+		end;
+		WriteLn(FuncOut, 'begin');
+		Write(FuncOut, '	MwVaWidgetExecute(handle, ''m' + Copy(FuncName, 2) + ''', ');
+		if HasReturn(Node) then
+		begin
+			Write(FuncOut, 'Pointer(@RetVal)');
+		end
+		else Write(FuncOut, 'Nil');
+
+		if HasArgs(Node) then
+		begin
+			Child := GetArgs(Node).FirstChild;
+			while Assigned(Child) do
+			begin
+				Write(FuncOut, ', ' + String(TDOMElement(Child).GetAttribute('name')));
+	
+				Child := Child.NextSibling;
+			end;
+		end;
+
+		WriteLn(FuncOut, ');');
+		if HasReturn(Node) then
+		begin
+			WriteLn(FuncOut, FuncName + ' := RetVal;');
+		end;
+		WriteLn(FuncOut, 'end;');
+		WriteLn(FuncOut, '');
 	end;
+
+	WriteLn(FuncDefOut, FuncDecl);
 end;
 
 procedure ScanFunctions(Prefix : String; Node : TDOMNode);
@@ -349,6 +387,7 @@ begin
 	WriteLn('Widget ' + TDOMElement(Node).GetAttribute('name'));
 
 	WriteLn(FuncDefOut, '(* Widget ' + TDOMElement(Node).GetAttribute('name') + ' *)');
+	WriteLn(FuncOut, '(* Widget ' + TDOMElement(Node).GetAttribute('name') + ' *)');
 
 	Child := Node.FirstChild;
 	while Assigned(Child) do
@@ -358,6 +397,7 @@ begin
 	end;
 
 	WriteLn(FuncDefOut, '');
+	WriteLn(FuncOut, '');
 
 	WriteLn(VarOut, '	Mw' + TDOMElement(Node).GetAttribute('name') + 'Class : Pointer; external name ''Mw' + TDOMElement(Node).GetAttribute('name') + 'Class'';');
 end;
@@ -387,6 +427,7 @@ begin
 	AssignFile(ConstOut, 'src/consth.inc');
 	AssignFile(FuncDefOut, 'src/funch.inc');
 	AssignFile(VarOut, 'src/varh.inc');
+	AssignFile(FuncOut, 'src/func.inc');
 
 	Rewrite(StructOut);
 	Rewrite(PropOut);
@@ -394,6 +435,7 @@ begin
 	Rewrite(ConstOut);
 	Rewrite(FuncDefOut);
 	Rewrite(VarOut);
+	Rewrite(FuncOut);
 
 	Prop := TPropDict.Create();
 
@@ -407,6 +449,7 @@ begin
 
 	XML.Free();
 
+	CloseFile(FuncOut);
 	CloseFile(VarOut);
 	CloseFile(FuncDefOut);
 	CloseFile(ConstOut);

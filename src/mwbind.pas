@@ -23,4 +23,6 @@ type
 
 implementation
 
+{$i func.inc}
+
 end.
