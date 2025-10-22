@@ -8,6 +8,8 @@ type
 	PMwWidget = ^MwWidget;
 	MwClass = Pointer;
 	PMwClass = ^MwClass;
+	MwLLPixmap = Pointer;
+	PMwLLPixmap = ^MwLLPixmap;
 	MwUserHandler = procedure (handle : MwWidget; user_data : Pointer; client_data : Pointer); cdecl;
 	MwErrorHandler = procedure (code : Integer; message : PChar; user_data : PChar); cdecl;
 
@@ -17,6 +19,7 @@ type
 {$i consth.inc}
 
 {$i funch.inc}
+{$i varh.inc}
 
 implementation
 

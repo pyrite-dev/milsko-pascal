@@ -31,8 +31,57 @@ function MwGetLastError() : PChar; cdecl; external name 'MwGetLastError';
 (* Header FileChooser *)
 function MwFileChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwFileChooser';
 
+(* Header Widget/ListBox.h *)
+function MwListBoxCreatePacket() : Pointer; cdecl; external name 'MwListBoxCreatePacket';
+procedure MwListBoxDestroyPacket(packet : Pointer); cdecl; external name 'MwListBoxDestroyPacket';
+function MwListBoxPacketInsert(packet : Pointer; index : Integer) : Integer; cdecl; external name 'MwListBoxPacketInsert';
+procedure MwListBoxPacketSet(packet : Pointer; index : Integer; col : Integer; text : PChar); cdecl; external name 'MwListBoxPacketSet';
+procedure MwListBoxPacketSetIcon(packet : Pointer; index : Integer; icon : MwLLPixmap); cdecl; external name 'MwListBoxPacketSetIcon';
+
 (* Header MessageBox *)
 function MwMessageBox(handle : MwWidget; text : PChar; title : PChar; flag : Cardinal) : MwWidget; cdecl; external name 'MwMessageBox';
 function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cdecl; external name 'MwMessageBoxGetChild';
 procedure MwMessageBoxDestroy(handle : MwWidget); cdecl; external name 'MwMessageBoxDestroy';
+
+(* Widget Button *)
+
+(* Widget CheckBox *)
+
+(* Widget Entry *)
+
+(* Widget Frame *)
+
+(* Widget Image *)
+
+(* Widget Label *)
+
+(* Widget ListBox *)
+procedure MwListBoxInsert(handle : MwWidget; index : Integer; packet : Pointer);
+procedure MwListBoxDelete(handle : MwWidget; index : Integer);
+function MwListBoxGet(handle : MwWidget; index : Integer) : PChar;
+procedure MwListBoxSetWidth(handle : MwWidget; index : Integer; width : Integer);
+procedure MwListBoxReset(handle : MwWidget);
+
+(* Widget Menu *)
+function MwMenuAdd(handle : MwWidget; menu : Pointer; name : PChar) : Pointer;
+
+(* Widget NumberEntry *)
+
+(* Widget OpenGL *)
+procedure MwOpenGLMakeCurrent(handle : MwWidget);
+function MwOpenGLGetProcAddress(handle : MwWidget; name : PChar) : Pointer;
+procedure MwOpenGLSwapBuffer(handle : MwWidget);
+
+(* Widget ScrollBar *)
+function MwScrollBarGetVisibleLength(handle : MwWidget) : Integer;
+
+(* Widget SubMenu *)
+procedure MwSubMenuAppear(handle : MwWidget; menu : Pointer; point : PMwPoint);
+
+(* Widget Viewport *)
+function MwViewportGetViewport(handle : MwWidget) : MwWidget;
+procedure MwViewportSetSize(handle : MwWidget; w : Integer; h : Integer);
+
+(* Widget Window *)
+procedure MwWindowMakeBorderless(handle : MwWidget);
 

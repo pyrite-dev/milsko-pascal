@@ -12,7 +12,7 @@ type
 var
 	XML : TXMLDocument;
 	Prop : TPropDict;
-	StructOut, EnumOut, PropOut, ConstOut, FuncDefOut : TextFile;
+	StructOut, EnumOut, PropOut, ConstOut, FuncDefOut, VarOut : TextFile;
 
 function PropToString(PropName : String) : String;
 begin
@@ -38,6 +38,7 @@ begin
 	if Node.NodeName = 'class' then TypeToPascal := TypeToPascal + 'MwClass';
 	if Node.NodeName = 'pointer' then TypeToPascal := TypeToPascal + 'Pointer';
 	if Node.NodeName = 'widget' then TypeToPascal := TypeToPascal + 'MwWidget';
+	if Node.NodeName = 'pixmap' then TypeToPascal := TypeToPascal + 'MwLLPixmap';
 	if Node.NodeName = 'handler' then TypeToPascal := TypeToPascal + 'MwUserHandler';
 	if Node.NodeName = 'error_handler' then TypeToPascal := TypeToPascal + 'MwErrorHandler';
 end;
@@ -248,6 +249,15 @@ begin
 
 	HasVa := False;
 	Write(FuncDefOut, '(');
+	if Length(Prefix) > 0 then
+	begin
+		Write(FuncDefOut, 'handle : MwWidget');
+		if HasArgs(Node) then
+		begin
+			Write(FuncDefOut, '; ');
+		end;
+	end;
+
 	if HasArgs(Node) then
 	begin
 		Child := GetArgs(Node).FirstChild;
@@ -274,9 +284,16 @@ begin
 		Write(FuncDefOut, ' : ' + TypeToPascal(Ret));
 	end;
 
-	Write(FuncDefOut, '; cdecl; ');
-	if HasVa then Write(FuncDefOut, 'varargs; ');
-	WriteLn(FuncDefOut, 'external name ''' + FuncName + ''';');
+	if Length(Prefix) = 0 then
+	begin
+		Write(FuncDefOut, '; cdecl; ');
+		if HasVa then Write(FuncDefOut, 'varargs; ');
+		WriteLn(FuncDefOut, 'external name ''' + FuncName + ''';');
+	end
+	else
+	begin
+		WriteLn(FuncDefOut, ';');
+	end;
 end;
 
 procedure ScanFunctions(Prefix : String; Node : TDOMNode);
@@ -325,18 +342,58 @@ begin
 	List.Free();
 end;
 
+procedure ScanWidget(Node : TDOMNode);
+var
+	Child : TDOMNode;
+begin
+	WriteLn('Widget ' + TDOMElement(Node).GetAttribute('name'));
+
+	WriteLn(FuncDefOut, '(* Widget ' + TDOMElement(Node).GetAttribute('name') + ' *)');
+
+	Child := Node.FirstChild;
+	while Assigned(Child) do
+	begin
+		if Child.NodeName = 'functions' then ScanFunctions('Mw' + String(TDOMElement(Node).GetAttribute('name')), Child);
+		Child := Child.NextSibling;
+	end;
+
+	WriteLn(FuncDefOut, '');
+
+	WriteLn(VarOut, '	Mw' + TDOMElement(Node).GetAttribute('name') + 'Class : Pointer; external name ''Mw' + TDOMElement(Node).GetAttribute('name') + 'Class'';');
+end;
+
+procedure ScanWidgets();
+var
+	Child : TDOMNode;
+	List : TDOMNodeList;
+begin
+	List := XML.DocumentElement.GetElementsByTagName('widgets');
+
+	WriteLn(VarOut, 'var');
+
+	Child := List[0].FirstChild;
+	while Assigned(Child) do
+	begin
+		if Child.NodeName = 'widget' then ScanWidget(Child);
+		Child := Child.NextSibling;
+	end;
+	List.Free();
+end;
+
 begin
 	AssignFile(StructOut, 'src/structh.inc');
 	AssignFile(PropOut, 'src/proph.inc');
 	AssignFile(EnumOut, 'src/enumh.inc');
 	AssignFile(ConstOut, 'src/consth.inc');
 	AssignFile(FuncDefOut, 'src/funch.inc');
+	AssignFile(VarOut, 'src/varh.inc');
 
 	Rewrite(StructOut);
 	Rewrite(PropOut);
 	Rewrite(EnumOut);
 	Rewrite(ConstOut);
 	Rewrite(FuncDefOut);
+	Rewrite(VarOut);
 
 	Prop := TPropDict.Create();
 
@@ -346,9 +403,11 @@ begin
 	ScanEnumerations();
 	ScanConstants();
 	ScanHeaders();
+	ScanWidgets();
 
 	XML.Free();
 
+	CloseFile(VarOut);
 	CloseFile(FuncDefOut);
 	CloseFile(ConstOut);
 	CloseFile(EnumOut);
