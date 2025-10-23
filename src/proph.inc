@@ -17,6 +17,7 @@ const
 	MwNhasHeading : PChar = 'IhasHeading';
 	MwNhasBorder : PChar = 'IhasBorder';
 	MwNinverted : PChar = 'Iinverted';
+	MwNmodernLook : PChar = 'ImodernLook';
 	MwNtitle : PChar = 'Stitle';
 	MwNtext : PChar = 'Stext';
 	MwNbackground : PChar = 'Sbackground';
@@ -24,6 +25,8 @@ const
 	MwNpixmap : PChar = 'Vpixmap';
 	MwNiconPixmap : PChar = 'ViconPixmap';
 	MwNsizeHints : PChar = 'VsizeHints';
+	MwNfont : PChar = 'font';
+	MwNboldFont : PChar = 'boldFont';
 	MwNactivate : PChar = 'Cactivate';
 	MwNresize : PChar = 'Cresize';
 	MwNtick : PChar = 'Ctick';
