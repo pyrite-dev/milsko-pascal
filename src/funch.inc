@@ -1,3 +1,6 @@
+(* Header ColorChooser *)
+function MwColorChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwColorChooser';
+
 (* Header Core *)
 function MwCreateWidget(widget_class : MwClass; name : PChar; parent : MwWidget; x : Integer; y : Integer; width : Cardinal; height : Cardinal) : MwWidget; cdecl; external name 'MwCreateWidget';
 function MwVaCreateWidget(widget_class : MwClass; name : PChar; parent : MwWidget; x : Integer; y : Integer; width : Cardinal; height : Cardinal) : MwWidget; cdecl; varargs; external name 'MwVaCreateWidget';
@@ -24,6 +27,10 @@ procedure MwAddTickList(handle : MwWidget); cdecl; external name 'MwAddTickList'
 procedure MwFocus(handle : MwWidget); cdecl; external name 'MwFocus';
 procedure MwGrabPointer(handle : MwWidget; toggle : Integer); cdecl; external name 'MwGrabPointer';
 procedure MwHideCursor(handle : MwWidget); cdecl; external name 'MwHideCursor';
+procedure MwToggleDarkTheme(handle : MwWidget; toggle : Integer); cdecl; external name 'MwToggleDarkTheme';
+function MwGetParent(handle : MwWidget) : MwWidget; cdecl; external name 'MwGetParent';
+procedure MwLibraryInit(); cdecl; external name 'MwLibraryInit';
+procedure MwShow(handle : MwWidget; toggle : Integer); cdecl; external name 'MwShow';
 
 (* Header Error *)
 function MwGetLastError() : PChar; cdecl; external name 'MwGetLastError';
@@ -84,4 +91,16 @@ procedure MwViewportSetSize(handle : MwWidget; w : Integer; h : Integer);
 
 (* Widget Window *)
 procedure MwWindowMakeBorderless(handle : MwWidget);
+
+(* Widget ProgressBar *)
+
+(* Widget RadioBox *)
+
+(* Widget ComboBox *)
+procedure MwComboBoxAdd(handle : MwWidget);
+
+(* Widget TreeView *)
+procedure MwTreeViewAdd(handle : MwWidget);
+procedure MwTreeViewDelete(handle : MwWidget);
+procedure MwTreeViewReset(handle : MwWidget);
 

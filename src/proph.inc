@@ -18,6 +18,10 @@ const
 	MwNhasBorder : PChar = 'IhasBorder';
 	MwNinverted : PChar = 'Iinverted';
 	MwNmodernLook : PChar = 'ImodernLook';
+	MwNwaitMS : PChar = 'IwaitMS';
+	MwNhideInput : PChar = 'IhideInput';
+	MwNsingleClickSelectable : PChar = 'IsingleClickSelectable';
+	MwNflat : PChar = 'Iflat';
 	MwNtitle : PChar = 'Stitle';
 	MwNtext : PChar = 'Stext';
 	MwNbackground : PChar = 'Sbackground';
@@ -41,3 +45,4 @@ const
 	MwNfocusIn : PChar = 'CfocusIn';
 	MwNfocusOut : PChar = 'CfocusOut';
 	MwNfileChosen : PChar = 'CfileChosen';
+	MwNcolorChosen : PChar = 'CcolorChosen';

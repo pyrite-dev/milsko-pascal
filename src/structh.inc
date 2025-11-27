@@ -11,3 +11,9 @@ type
 		max_height : Integer;
 	end;
 	PMwSizeHints = ^MwSizeHints;
+	MwRGB = packed record
+		red : Word;
+		green : Word;
+		blue : Word;
+	end;
+	PMwRGB = ^MwRGB;

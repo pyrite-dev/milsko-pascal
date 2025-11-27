@@ -34,6 +34,8 @@ begin
 	if Node.NodeName = 'struct' then TypeToPascal := TypeToPascal + String(TDOMElement(Node).GetAttribute('defname'));
 	if (Node.NodeName = 'integer') and (TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Cardinal';
 	if (Node.NodeName = 'integer') and not(TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Integer';
+	if (Node.NodeName = 'short') and (TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Word';
+	if (Node.NodeName = 'short') and not(TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Smallint';
 	if Node.NodeName = 'string' then TypeToPascal := TypeToPascal + 'PChar';
 	if Node.NodeName = 'class' then TypeToPascal := TypeToPascal + 'MwClass';
 	if Node.NodeName = 'pointer' then TypeToPascal := TypeToPascal + 'Pointer';

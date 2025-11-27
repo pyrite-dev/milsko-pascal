@@ -111,3 +111,31 @@ begin
 end;
 
 
+(* Widget ProgressBar *)
+
+(* Widget RadioBox *)
+
+(* Widget ComboBox *)
+procedure MwComboBoxAdd(handle : MwWidget);
+begin
+	MwVaWidgetExecute(handle, 'mwComboBoxAdd', Nil);
+end;
+
+
+(* Widget TreeView *)
+procedure MwTreeViewAdd(handle : MwWidget);
+begin
+	MwVaWidgetExecute(handle, 'mwTreeViewAdd', Nil);
+end;
+
+procedure MwTreeViewDelete(handle : MwWidget);
+begin
+	MwVaWidgetExecute(handle, 'mwTreeViewDelete', Nil);
+end;
+
+procedure MwTreeViewReset(handle : MwWidget);
+begin
+	MwVaWidgetExecute(handle, 'mwTreeViewReset', Nil);
+end;
+
+

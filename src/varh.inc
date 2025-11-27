@@ -13,3 +13,7 @@ var
 	MwSubMenuClass : Pointer; external name 'MwSubMenuClass';
 	MwViewportClass : Pointer; external name 'MwViewportClass';
 	MwWindowClass : Pointer; external name 'MwWindowClass';
+	MwProgressBarClass : Pointer; external name 'MwProgressBarClass';
+	MwRadioBoxClass : Pointer; external name 'MwRadioBoxClass';
+	MwComboBoxClass : Pointer; external name 'MwComboBoxClass';
+	MwTreeViewClass : Pointer; external name 'MwTreeViewClass';
