@@ -31,6 +31,10 @@ procedure MwToggleDarkTheme(handle : MwWidget; toggle : Integer); cdecl; externa
 function MwGetParent(handle : MwWidget) : MwWidget; cdecl; external name 'MwGetParent';
 procedure MwLibraryInit(); cdecl; external name 'MwLibraryInit';
 procedure MwShow(handle : MwWidget; toggle : Integer); cdecl; external name 'MwShow';
+function MwGetName(handle : MwWidget) : PChar; cdecl; external name 'MwGetName';
+function MwGetChildren(handle : MwWidget) : PMwWidget; cdecl; external name 'MwGetChildren';
+procedure MwGetCursorCoord(handle : MwWidget; point : PMwPoint); cdecl; external name 'MwGetCursorCoord';
+procedure MwGetScreenSize(handle : MwWidget; rect : PMwRect); cdecl; external name 'MwGetScreenSize';
 
 (* Header Error *)
 function MwGetLastError() : PChar; cdecl; external name 'MwGetLastError';

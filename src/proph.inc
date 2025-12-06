@@ -22,6 +22,9 @@ const
 	MwNhideInput : PChar = 'IhideInput';
 	MwNsingleClickSelectable : PChar = 'IsingleClickSelectable';
 	MwNflat : PChar = 'Iflat';
+	MwNshowArrows : PChar = 'IshowArrows';
+	MwNpadding : PChar = 'Ipadding';
+	MwNborderWidth : PChar = 'IborderWidth';
 	MwNtitle : PChar = 'Stitle';
 	MwNtext : PChar = 'Stext';
 	MwNbackground : PChar = 'Sbackground';
@@ -45,4 +48,6 @@ const
 	MwNfocusIn : PChar = 'CfocusIn';
 	MwNfocusOut : PChar = 'CfocusOut';
 	MwNfileChosen : PChar = 'CfileChosen';
+	MwNdirectoryChosen : PChar = 'CdirectoryChosen';
 	MwNcolorChosen : PChar = 'CcolorChosen';
+	MwNdraw : PChar = 'Cdraw';

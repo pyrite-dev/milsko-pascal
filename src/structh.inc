@@ -4,6 +4,13 @@ type
 		y : Integer;
 	end;
 	PMwPoint = ^MwPoint;
+	MwRect = packed record
+		x : Integer;
+		y : Integer;
+		width : Integer;
+		height : Integer;
+	end;
+	PMwRect = ^MwRect;
 	MwSizeHints = packed record
 		min_width : Integer;
 		min_height : Integer;
