@@ -1,3 +1,5 @@
+(* Widget Box *)
+
 (* Widget Button *)
 
 (* Widget CheckBox *)
@@ -9,6 +11,11 @@
 (* Widget Image *)
 
 (* Widget Label *)
+procedure MwLabelSetSevenSegment(handle : MwWidget; index : Integer; data : Integer);
+begin
+	MwVaWidgetExecute(handle, 'mwLabelSetSevenSegment', Nil, index, data);
+end;
+
 
 (* Widget ListBox *)
 procedure MwListBoxInsert(handle : MwWidget; index : Integer; packet : Pointer);

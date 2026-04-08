@@ -1,4 +1,5 @@
 var
+	MwBoxClass : Pointer; external name 'MwBoxClass';
 	MwButtonClass : Pointer; external name 'MwButtonClass';
 	MwCheckBoxClass : Pointer; external name 'MwCheckBoxClass';
 	MwEntryClass : Pointer; external name 'MwEntryClass';

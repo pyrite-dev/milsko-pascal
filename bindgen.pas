@@ -49,6 +49,7 @@ procedure ScanProperties();
 var
 	Child : TDOMNode;
 	List : TDOMNodeList;
+	Suffix : String;
 begin
 	List := XML.DocumentElement.GetElementsByTagName('properties');
 	
@@ -59,9 +60,16 @@ begin
 	begin
 		WriteLn('Property ' + TDOMElement(Child).GetAttribute('name'));
 
+		Suffix := '';
+
+		if TDOMElement(Child).TagName = 'handler' then
+		begin
+			Suffix := 'handler';
+		end;
+
 		Prop[String(TDOMElement(Child).GetAttribute('name'))] := TDOMElement(Child);
 
-		WriteLn(PropOut, '	MwN' + String(TDOMElement(Child).GetAttribute('name')) + ' : PChar = ''' + PropToString(String(TDOMElement(Child).GetAttribute('name'))) + ''';');
+		WriteLn(PropOut, '	MwN' + String(TDOMElement(Child).GetAttribute('name')) + Suffix + ' : PChar = ''' + PropToString(String(TDOMElement(Child).GetAttribute('name'))) + ''';');
 
 		Child := Child.NextSibling;
 	end;

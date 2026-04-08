@@ -27,7 +27,7 @@ procedure MwAddTickList(handle : MwWidget); cdecl; external name 'MwAddTickList'
 procedure MwFocus(handle : MwWidget); cdecl; external name 'MwFocus';
 procedure MwGrabPointer(handle : MwWidget; toggle : Integer); cdecl; external name 'MwGrabPointer';
 procedure MwHideCursor(handle : MwWidget); cdecl; external name 'MwHideCursor';
-procedure MwToggleDarkTheme(handle : MwWidget; toggle : Integer); cdecl; external name 'MwToggleDarkTheme';
+procedure MwSetDarkTheme(handle : MwWidget; toggle : Integer); cdecl; external name 'MwSetDarkTheme';
 function MwGetParent(handle : MwWidget) : MwWidget; cdecl; external name 'MwGetParent';
 procedure MwLibraryInit(); cdecl; external name 'MwLibraryInit';
 procedure MwShow(handle : MwWidget; toggle : Integer); cdecl; external name 'MwShow';
@@ -35,9 +35,6 @@ function MwGetName(handle : MwWidget) : PChar; cdecl; external name 'MwGetName';
 function MwGetChildren(handle : MwWidget) : PMwWidget; cdecl; external name 'MwGetChildren';
 procedure MwGetCursorCoord(handle : MwWidget; point : PMwPoint); cdecl; external name 'MwGetCursorCoord';
 procedure MwGetScreenSize(handle : MwWidget; rect : PMwRect); cdecl; external name 'MwGetScreenSize';
-
-(* Header Error *)
-function MwGetLastError() : PChar; cdecl; external name 'MwGetLastError';
 
 (* Header FileChooser *)
 function MwFileChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwFileChooser';
@@ -54,6 +51,8 @@ function MwListBoxPacketInsert(packet : Pointer; index : Integer) : Integer; cde
 procedure MwListBoxPacketSet(packet : Pointer; index : Integer; col : Integer; text : PChar); cdecl; external name 'MwListBoxPacketSet';
 procedure MwListBoxPacketSetIcon(packet : Pointer; index : Integer; icon : MwLLPixmap); cdecl; external name 'MwListBoxPacketSetIcon';
 
+(* Widget Box *)
+
 (* Widget Button *)
 
 (* Widget CheckBox *)
@@ -65,6 +64,7 @@ procedure MwListBoxPacketSetIcon(packet : Pointer; index : Integer; icon : MwLLP
 (* Widget Image *)
 
 (* Widget Label *)
+procedure MwLabelSetSevenSegment(handle : MwWidget; index : Integer; data : Integer);
 
 (* Widget ListBox *)
 procedure MwListBoxInsert(handle : MwWidget; index : Integer; packet : Pointer);
