@@ -58,6 +58,13 @@ begin
 	Child := List[0].FirstChild;
 	while Assigned(Child) do
 	begin
+		if not(Child.NodeType = ELEMENT_NODE) then
+		begin
+			Child := Child.NextSibling;
+
+			continue;
+		end;
+
 		WriteLn('Property ' + TDOMElement(Child).GetAttribute('name'));
 
 		Suffix := '';

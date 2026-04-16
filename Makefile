@@ -1,4 +1,4 @@
-FPC = fpc -Mobjfpc -Sh -Fusrc
+FPC = fpc -Mobjfpc -Sh -Fusrc -g
 
 .PHONY: all lib clean
 

@@ -35,6 +35,8 @@ function MwGetName(handle : MwWidget) : PChar; cdecl; external name 'MwGetName';
 function MwGetChildren(handle : MwWidget) : PMwWidget; cdecl; external name 'MwGetChildren';
 procedure MwGetCursorCoord(handle : MwWidget; point : PMwPoint); cdecl; external name 'MwGetCursorCoord';
 procedure MwGetScreenSize(handle : MwWidget; rect : PMwRect); cdecl; external name 'MwGetScreenSize';
+procedure MwGetClipboard(handle : MwWidget; clipboard_type : Integer); cdecl; external name 'MwGetClipboard';
+procedure MwSetClipboard(handle : MwWidget; text : PChar; clipboard_type : Integer); cdecl; external name 'MwSetClipboard';
 
 (* Header FileChooser *)
 function MwFileChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwFileChooser';
@@ -104,7 +106,15 @@ procedure MwWindowMakeBorderless(handle : MwWidget);
 procedure MwComboBoxAdd(handle : MwWidget);
 
 (* Widget TreeView *)
-procedure MwTreeViewAdd(handle : MwWidget);
-procedure MwTreeViewDelete(handle : MwWidget);
+procedure MwTreeViewAdd(handle : MwWidget; parent : Pointer; pixmap : MwLLPixmap; item : PChar);
+procedure MwTreeViewDelete(handle : MwWidget; item : Pointer);
 procedure MwTreeViewReset(handle : MwWidget);
+
+(* Widget OpenGL *)
+procedure MwOpenGLMakeCurrent(handle : MwWidget);
+function MwOpenGLGetProcAddress(handle : MwWidget; name : PChar) : Pointer;
+procedure MwOpenGLSwapBuffer(handle : MwWidget);
+
+(* Widget Vulkan *)
+function MwVulkanGetField(handle : MwWidget; field : Integer; out : PInteger) : Pointer;
 

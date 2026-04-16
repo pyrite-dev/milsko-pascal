@@ -18,3 +18,5 @@ var
 	MwRadioBoxClass : Pointer; external name 'MwRadioBoxClass';
 	MwComboBoxClass : Pointer; external name 'MwComboBoxClass';
 	MwTreeViewClass : Pointer; external name 'MwTreeViewClass';
+	MwOpenGLClass : Pointer; external name 'MwOpenGLClass';
+	MwVulkanClass : Pointer; external name 'MwVulkanClass';

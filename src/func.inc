@@ -130,19 +130,49 @@ end;
 
 
 (* Widget TreeView *)
-procedure MwTreeViewAdd(handle : MwWidget);
+procedure MwTreeViewAdd(handle : MwWidget; parent : Pointer; pixmap : MwLLPixmap; item : PChar);
 begin
-	MwVaWidgetExecute(handle, 'mwTreeViewAdd', Nil);
+	MwVaWidgetExecute(handle, 'mwTreeViewAdd', Nil, parent, pixmap, item);
 end;
 
-procedure MwTreeViewDelete(handle : MwWidget);
+procedure MwTreeViewDelete(handle : MwWidget; item : Pointer);
 begin
-	MwVaWidgetExecute(handle, 'mwTreeViewDelete', Nil);
+	MwVaWidgetExecute(handle, 'mwTreeViewDelete', Nil, item);
 end;
 
 procedure MwTreeViewReset(handle : MwWidget);
 begin
 	MwVaWidgetExecute(handle, 'mwTreeViewReset', Nil);
+end;
+
+
+(* Widget OpenGL *)
+procedure MwOpenGLMakeCurrent(handle : MwWidget);
+begin
+	MwVaWidgetExecute(handle, 'mwOpenGLMakeCurrent', Nil);
+end;
+
+function MwOpenGLGetProcAddress(handle : MwWidget; name : PChar) : Pointer;
+var
+	RetVal : Pointer;
+begin
+	MwVaWidgetExecute(handle, 'mwOpenGLGetProcAddress', Pointer(@RetVal), name);
+MwOpenGLGetProcAddress := RetVal;
+end;
+
+procedure MwOpenGLSwapBuffer(handle : MwWidget);
+begin
+	MwVaWidgetExecute(handle, 'mwOpenGLSwapBuffer', Nil);
+end;
+
+
+(* Widget Vulkan *)
+function MwVulkanGetField(handle : MwWidget; field : Integer; out : PInteger) : Pointer;
+var
+	RetVal : Pointer;
+begin
+	MwVaWidgetExecute(handle, 'mwVulkanGetField', Pointer(@RetVal), field, out);
+MwVulkanGetField := RetVal;
 end;
 
 

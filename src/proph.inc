@@ -18,7 +18,6 @@ const
 	MwNhasBorder : PChar = 'IhasBorder';
 	MwNinverted : PChar = 'Iinverted';
 	MwNmodernLook : PChar = 'ImodernLook';
-	MwNwaitMS : PChar = 'IwaitMS';
 	MwNhideInput : PChar = 'IhideInput';
 	MwNsingleClickSelectable : PChar = 'IsingleClickSelectable';
 	MwNflat : PChar = 'Iflat';
@@ -32,9 +31,10 @@ const
 	MwNsevenSegment : PChar = 'IsevenSegment';
 	MwNlength : PChar = 'Ilength';
 	MwNforceInverted : PChar = 'IforceInverted';
-	MwNroundness : PChar = 'Iroundness';
 	MwNisRounded : PChar = 'IisRounded';
 	MwNdarkTheme : PChar = 'IdarkTheme';
+	MwNuseMonospace : PChar = 'IuseMonospace';
+	MwNwaitMS : PChar = 'IwaitMS';
 	MwNtitle : PChar = 'Stitle';
 	MwNtext : PChar = 'Stext';
 	MwNbackground : PChar = 'Sbackground';
