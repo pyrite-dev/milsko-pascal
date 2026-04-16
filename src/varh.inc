@@ -9,7 +9,6 @@ var
 	MwListBoxClass : Pointer; external name 'MwListBoxClass';
 	MwMenuClass : Pointer; external name 'MwMenuClass';
 	MwNumberEntryClass : Pointer; external name 'MwNumberEntryClass';
-	MwOpenGLClass : Pointer; external name 'MwOpenGLClass';
 	MwScrollBarClass : Pointer; external name 'MwScrollBarClass';
 	MwSubMenuClass : Pointer; external name 'MwSubMenuClass';
 	MwViewportClass : Pointer; external name 'MwViewportClass';

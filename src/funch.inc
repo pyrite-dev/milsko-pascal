@@ -53,6 +53,9 @@ function MwListBoxPacketInsert(packet : Pointer; index : Integer) : Integer; cde
 procedure MwListBoxPacketSet(packet : Pointer; index : Integer; col : Integer; text : PChar); cdecl; external name 'MwListBoxPacketSet';
 procedure MwListBoxPacketSetIcon(packet : Pointer; index : Integer; icon : MwLLPixmap); cdecl; external name 'MwListBoxPacketSetIcon';
 
+(* Header Widget/Vulkan.h *)
+function MwVulkanConfigure(cfg : PMwVulkanConfig) : Pointer; cdecl; external name 'MwVulkanConfigure';
+
 (* Widget Box *)
 
 (* Widget Button *)
@@ -79,11 +82,6 @@ procedure MwListBoxReset(handle : MwWidget);
 function MwMenuAdd(handle : MwWidget; menu : Pointer; name : PChar) : Pointer;
 
 (* Widget NumberEntry *)
-
-(* Widget OpenGL *)
-procedure MwOpenGLMakeCurrent(handle : MwWidget);
-function MwOpenGLGetProcAddress(handle : MwWidget; name : PChar) : Pointer;
-procedure MwOpenGLSwapBuffer(handle : MwWidget);
 
 (* Widget ScrollBar *)
 function MwScrollBarGetVisibleLength(handle : MwWidget) : Integer;
@@ -116,5 +114,5 @@ function MwOpenGLGetProcAddress(handle : MwWidget; name : PChar) : Pointer;
 procedure MwOpenGLSwapBuffer(handle : MwWidget);
 
 (* Widget Vulkan *)
-function MwVulkanGetField(handle : MwWidget; field : Integer; out : PInteger) : Pointer;
+function MwVulkanGetField(handle : MwWidget; field : Integer; output : PInteger) : Pointer;
 

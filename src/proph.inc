@@ -50,6 +50,8 @@ const
 	MwNmonospaceFont : PChar = 'monospaceFont';
 	MwNboldMonospaceFont : PChar = 'boldMonospaceFont';
 	MwNactivatehandler : PChar = 'Cactivate';
+	MwNlistBoxActivatehandler : PChar = 'ClistBoxActivate';
+	MwNtreeViewActivatehandler : PChar = 'CtreeViewActivate';
 	MwNresizehandler : PChar = 'Cresize';
 	MwNtickhandler : PChar = 'Ctick';
 	MwNmenuhandler : PChar = 'Cmenu';
@@ -57,6 +59,7 @@ const
 	MwNmouseUphandler : PChar = 'CmouseUp';
 	MwNmouseMovehandler : PChar = 'CmouseMove';
 	MwNchangedhandler : PChar = 'Cchanged';
+	MwNcomboBoxChangedhandler : PChar = 'CcomboBoxChanged';
 	MwNkeyhandler : PChar = 'Ckey';
 	MwNkeyReleasehandler : PChar = 'CkeyRelease';
 	MwNclosehandler : PChar = 'Cclose';

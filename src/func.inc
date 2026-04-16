@@ -59,26 +59,6 @@ end;
 
 (* Widget NumberEntry *)
 
-(* Widget OpenGL *)
-procedure MwOpenGLMakeCurrent(handle : MwWidget);
-begin
-	MwVaWidgetExecute(handle, 'mwOpenGLMakeCurrent', Nil);
-end;
-
-function MwOpenGLGetProcAddress(handle : MwWidget; name : PChar) : Pointer;
-var
-	RetVal : Pointer;
-begin
-	MwVaWidgetExecute(handle, 'mwOpenGLGetProcAddress', Pointer(@RetVal), name);
-MwOpenGLGetProcAddress := RetVal;
-end;
-
-procedure MwOpenGLSwapBuffer(handle : MwWidget);
-begin
-	MwVaWidgetExecute(handle, 'mwOpenGLSwapBuffer', Nil);
-end;
-
-
 (* Widget ScrollBar *)
 function MwScrollBarGetVisibleLength(handle : MwWidget) : Integer;
 var
@@ -167,11 +147,11 @@ end;
 
 
 (* Widget Vulkan *)
-function MwVulkanGetField(handle : MwWidget; field : Integer; out : PInteger) : Pointer;
+function MwVulkanGetField(handle : MwWidget; field : Integer; output : PInteger) : Pointer;
 var
 	RetVal : Pointer;
 begin
-	MwVaWidgetExecute(handle, 'mwVulkanGetField', Pointer(@RetVal), field, out);
+	MwVaWidgetExecute(handle, 'mwVulkanGetField', Pointer(@RetVal), field, output);
 MwVulkanGetField := RetVal;
 end;
 

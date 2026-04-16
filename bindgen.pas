@@ -102,7 +102,7 @@ begin
 
 	WriteLn('Enumeration ' + EnumName);
 
-	Write(EnumOut, '	' + EnumName + ' = (');
+	Write(EnumOut, '	' + EnumName + '_ENUM = (');
 
 	Child := Node.FirstChild;
 	while Assigned(Child) do

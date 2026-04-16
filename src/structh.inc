@@ -24,3 +24,14 @@ type
 		blue : Word;
 	end;
 	PMwRGB = ^MwRGB;
+	MwMouse = packed record
+		point : MwPoint;
+		button : Integer;
+	end;
+	PMwMouse = ^MwMouse;
+	MwVulkanConfig = packed record
+		api_version : Cardinal;
+		vk_version : Cardinal;
+		validation_layers : Integer;
+	end;
+	PMwVulkanConfig = ^MwVulkanConfig;
