@@ -47,7 +47,6 @@ function MwDirectoryChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl;
 (* Header Dialog/MessageBox *)
 function MwMessageBox(handle : MwWidget; text : PChar; title : PChar; flag : Cardinal) : MwWidget; cdecl; external name 'MwMessageBox';
 function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cdecl; external name 'MwMessageBoxGetChild';
-procedure MwMessageBoxDestroy(handle : MwWidget); cdecl; external name 'MwMessageBoxDestroy';
 
 (* Header Widget/Vulkan *)
 function MwVulkanConfigure(cfg : PMwVulkanConfig) : Pointer; cdecl; external name 'MwVulkanConfigure';
