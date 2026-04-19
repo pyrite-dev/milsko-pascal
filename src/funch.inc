@@ -1,5 +1,5 @@
-(* Header ColorChooser *)
-function MwColorChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwColorChooser';
+(* Header Dialog/ColorPicker *)
+function MwColorPicker(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwColorPicker';
 
 (* Header Core *)
 function MwCreateWidget(widget_class : MwClass; name : PChar; parent : MwWidget; x : Integer; y : Integer; width : Cardinal; height : Cardinal) : MwWidget; cdecl; external name 'MwCreateWidget';
@@ -36,24 +36,20 @@ function MwGetChildren(handle : MwWidget) : PMwWidget; cdecl; external name 'MwG
 procedure MwGetCursorCoord(handle : MwWidget; point : PMwPoint); cdecl; external name 'MwGetCursorCoord';
 procedure MwGetScreenSize(handle : MwWidget; rect : PMwRect); cdecl; external name 'MwGetScreenSize';
 procedure MwGetClipboard(handle : MwWidget; clipboard_type : Integer); cdecl; external name 'MwGetClipboard';
-procedure MwSetClipboard(handle : MwWidget; text : PChar; clipboard_type : Integer); cdecl; external name 'MwSetClipboard';
 
-(* Header FileChooser *)
+(* Header Dialog/FileChooser *)
 function MwFileChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwFileChooser';
+function MwFileChooserEx(handle : MwWidget; title : PChar; dir : Integer) : MwWidget; cdecl; external name 'MwFileChooserEx';
 
-(* Header MessageBox *)
+(* Header Dialog/DirectoryChooser *)
+function MwDirectoryChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwDirectoryChooser';
+
+(* Header Dialog/MessageBox *)
 function MwMessageBox(handle : MwWidget; text : PChar; title : PChar; flag : Cardinal) : MwWidget; cdecl; external name 'MwMessageBox';
 function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cdecl; external name 'MwMessageBoxGetChild';
 procedure MwMessageBoxDestroy(handle : MwWidget); cdecl; external name 'MwMessageBoxDestroy';
 
-(* Header Widget/ListBox.h *)
-function MwListBoxCreatePacket() : Pointer; cdecl; external name 'MwListBoxCreatePacket';
-procedure MwListBoxDestroyPacket(packet : Pointer); cdecl; external name 'MwListBoxDestroyPacket';
-function MwListBoxPacketInsert(packet : Pointer; index : Integer) : Integer; cdecl; external name 'MwListBoxPacketInsert';
-procedure MwListBoxPacketSet(packet : Pointer; index : Integer; col : Integer; text : PChar); cdecl; external name 'MwListBoxPacketSet';
-procedure MwListBoxPacketSetIcon(packet : Pointer; index : Integer; icon : MwLLPixmap); cdecl; external name 'MwListBoxPacketSetIcon';
-
-(* Header Widget/Vulkan.h *)
+(* Header Widget/Vulkan *)
 function MwVulkanConfigure(cfg : PMwVulkanConfig) : Pointer; cdecl; external name 'MwVulkanConfigure';
 
 (* Widget Box *)
@@ -72,7 +68,8 @@ function MwVulkanConfigure(cfg : PMwVulkanConfig) : Pointer; cdecl; external nam
 procedure MwLabelSetSevenSegment(handle : MwWidget; index : Integer; data : Integer);
 
 (* Widget ListBox *)
-procedure MwListBoxInsert(handle : MwWidget; index : Integer; packet : Pointer);
+procedure MwListBoxInsert(handle : MwWidget; row : Integer; col : Integer; text : PChar);
+procedure MwListBoxSetIcon(handle : MwWidget; index : Integer; icon : MwLLPixmap);
 procedure MwListBoxDelete(handle : MwWidget; index : Integer);
 function MwListBoxGet(handle : MwWidget; index : Integer) : PChar;
 procedure MwListBoxSetWidth(handle : MwWidget; index : Integer; width : Integer);

@@ -153,7 +153,7 @@ begin
 	Child := List[0].FirstChild;
 	while Assigned(Child) do
 	begin
-		WriteLn(ConstOut, '	' + String(TDOMElement(Child).GetAttribute('name')) + ' : Integer = ' + IntegerTrans(String(Child.TextContent)) + ';');
+		WriteLn(ConstOut, '	' + String(TDOMElement(Child).GetAttribute('name')) + ' : Cardinal = ' + IntegerTrans(String(Child.TextContent)) + ';');
 		Child := Child.NextSibling;
 	end;
 	List.Free();

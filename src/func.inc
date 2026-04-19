@@ -18,9 +18,14 @@ end;
 
 
 (* Widget ListBox *)
-procedure MwListBoxInsert(handle : MwWidget; index : Integer; packet : Pointer);
+procedure MwListBoxInsert(handle : MwWidget; row : Integer; col : Integer; text : PChar);
 begin
-	MwVaWidgetExecute(handle, 'mwListBoxInsert', Nil, index, packet);
+	MwVaWidgetExecute(handle, 'mwListBoxInsert', Nil, row, col, text);
+end;
+
+procedure MwListBoxSetIcon(handle : MwWidget; index : Integer; icon : MwLLPixmap);
+begin
+	MwVaWidgetExecute(handle, 'mwListBoxSetIcon', Nil, index, icon);
 end;
 
 procedure MwListBoxDelete(handle : MwWidget; index : Integer);
