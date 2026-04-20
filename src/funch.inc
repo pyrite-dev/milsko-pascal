@@ -36,6 +36,7 @@ function MwGetChildren(handle : MwWidget) : PMwWidget; cdecl; external name 'MwG
 procedure MwGetCursorCoord(handle : MwWidget; point : PMwPoint); cdecl; external name 'MwGetCursorCoord';
 procedure MwGetScreenSize(handle : MwWidget; rect : PMwRect); cdecl; external name 'MwGetScreenSize';
 procedure MwGetClipboard(handle : MwWidget; clipboard_type : Integer); cdecl; external name 'MwGetClipboard';
+function MwGetClass(handle : MwWidget) : MwClass; cdecl; external name 'MwGetClass';
 
 (* Header Dialog/FileChooser *)
 function MwFileChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwFileChooser';
@@ -50,6 +51,8 @@ function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cd
 
 (* Header Widget/Vulkan *)
 function MwVulkanConfigure(cfg : PMwVulkanConfig) : Pointer; cdecl; external name 'MwVulkanConfigure';
+procedure MwVulkanEnableExtension(ext_name : PChar); cdecl; external name 'MwVulkanEnableExtension';
+procedure MwVulkanEnableLayer(ext_name : PChar); cdecl; external name 'MwVulkanEnableLayer';
 
 (* Widget Box *)
 
@@ -67,7 +70,7 @@ function MwVulkanConfigure(cfg : PMwVulkanConfig) : Pointer; cdecl; external nam
 procedure MwLabelSetSevenSegment(handle : MwWidget; index : Integer; data : Integer);
 
 (* Widget ListBox *)
-procedure MwListBoxInsert(handle : MwWidget; row : Integer; col : Integer; text : PChar);
+function MwListBoxSet(handle : MwWidget; row : Integer; col : Integer; text : PChar) : Integer;
 procedure MwListBoxSetIcon(handle : MwWidget; index : Integer; icon : MwLLPixmap);
 procedure MwListBoxDelete(handle : MwWidget; index : Integer);
 function MwListBoxGet(handle : MwWidget; index : Integer) : PChar;
@@ -83,7 +86,8 @@ function MwMenuAdd(handle : MwWidget; menu : Pointer; name : PChar) : Pointer;
 function MwScrollBarGetVisibleLength(handle : MwWidget) : Integer;
 
 (* Widget SubMenu *)
-procedure MwSubMenuAppear(handle : MwWidget; menu : Pointer; point : PMwPoint);
+procedure MwSubMenuAppear(handle : MwWidget; menu : Pointer; point : PMwPoint; diff_calc : Integer);
+procedure MwSubMenuGetSize(handle : MwWidget; menu : Pointer; rect : PMwRect);
 
 (* Widget Viewport *)
 function MwViewportGetViewport(handle : MwWidget) : MwWidget;

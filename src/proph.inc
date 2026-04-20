@@ -42,6 +42,8 @@ const
 	MwNsubBackground : PChar = 'SsubBackground';
 	MwNforeground : PChar = 'Sforeground';
 	MwNsubForeground : PChar = 'SsubForeground';
+	MwNvulkanExtension : PChar = 'SEvulkanExtension';
+	MwNvulkanLayer : PChar = 'SEvulkanLayer';
 	MwNpixmap : PChar = 'Vpixmap';
 	MwNiconPixmap : PChar = 'ViconPixmap';
 	MwNsizeHints : PChar = 'VsizeHints';

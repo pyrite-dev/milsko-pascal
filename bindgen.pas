@@ -24,6 +24,8 @@ begin
 	if (Prop[PropName].NodeName = 'struct') and (Prop[PropName].GetAttribute('pointer') = 'yes') then PropToString := 'V';
 	if Prop[PropName].NodeName = 'handler' then PropToString := 'C';
 
+	if Prop[PropName].GetAttribute('early') = 'yes' then PropToString := PropToString + 'E';
+
 	PropToString := PropToString + PropName;
 end;
 

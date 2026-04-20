@@ -18,9 +18,12 @@ end;
 
 
 (* Widget ListBox *)
-procedure MwListBoxInsert(handle : MwWidget; row : Integer; col : Integer; text : PChar);
+function MwListBoxSet(handle : MwWidget; row : Integer; col : Integer; text : PChar) : Integer;
+var
+	RetVal : Integer;
 begin
-	MwVaWidgetExecute(handle, 'mwListBoxInsert', Nil, row, col, text);
+	MwVaWidgetExecute(handle, 'mwListBoxSet', Pointer(@RetVal), row, col, text);
+MwListBoxSet := RetVal;
 end;
 
 procedure MwListBoxSetIcon(handle : MwWidget; index : Integer; icon : MwLLPixmap);
@@ -75,9 +78,14 @@ end;
 
 
 (* Widget SubMenu *)
-procedure MwSubMenuAppear(handle : MwWidget; menu : Pointer; point : PMwPoint);
+procedure MwSubMenuAppear(handle : MwWidget; menu : Pointer; point : PMwPoint; diff_calc : Integer);
 begin
-	MwVaWidgetExecute(handle, 'mwSubMenuAppear', Nil, menu, point);
+	MwVaWidgetExecute(handle, 'mwSubMenuAppear', Nil, menu, point, diff_calc);
+end;
+
+procedure MwSubMenuGetSize(handle : MwWidget; menu : Pointer; rect : PMwRect);
+begin
+	MwVaWidgetExecute(handle, 'mwSubMenuGetSize', Nil, menu, rect);
 end;
 
 
