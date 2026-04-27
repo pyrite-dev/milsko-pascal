@@ -37,6 +37,9 @@ procedure MwGetCursorCoord(handle : MwWidget; point : PMwPoint); cdecl; external
 procedure MwGetScreenSize(handle : MwWidget; rect : PMwRect); cdecl; external name 'MwGetScreenSize';
 procedure MwGetClipboard(handle : MwWidget; clipboard_type : Integer); cdecl; external name 'MwGetClipboard';
 function MwGetClass(handle : MwWidget) : MwClass; cdecl; external name 'MwGetClass';
+procedure MwSetUser(handle : MwWidget; user : Pointer); cdecl; external name 'MwSetUser';
+function MwGetUser(handle : MwWidget) : Pointer; cdecl; external name 'MwGetUser';
+procedure MwFreeWidget(handle : MwWidget); cdecl; external name 'MwFreeWidget';
 
 (* Header Dialog/FileChooser *)
 function MwFileChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl; external name 'MwFileChooser';
@@ -48,11 +51,6 @@ function MwDirectoryChooser(handle : MwWidget; title : PChar) : MwWidget; cdecl;
 (* Header Dialog/MessageBox *)
 function MwMessageBox(handle : MwWidget; text : PChar; title : PChar; flag : Cardinal) : MwWidget; cdecl; external name 'MwMessageBox';
 function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cdecl; external name 'MwMessageBoxGetChild';
-
-(* Header Widget/Vulkan *)
-function MwVulkanConfigure(cfg : PMwVulkanConfig) : Pointer; cdecl; external name 'MwVulkanConfigure';
-procedure MwVulkanEnableExtension(ext_name : PChar); cdecl; external name 'MwVulkanEnableExtension';
-procedure MwVulkanEnableLayer(ext_name : PChar); cdecl; external name 'MwVulkanEnableLayer';
 
 (* Widget Box *)
 

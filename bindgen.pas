@@ -458,7 +458,7 @@ begin
 
 	Prop := TPropDict.Create();
 
-	ReadXMLFile(XML, 'milsko/milsko.xml');
+	ReadXMLFile(XML, '../milsko/milsko.xml');
 	ScanStructs();
 	ScanProperties();
 	ScanEnumerations();

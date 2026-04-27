@@ -35,6 +35,7 @@ const
 	MwNdarkTheme : PChar = 'IdarkTheme';
 	MwNuseMonospace : PChar = 'IuseMonospace';
 	MwNfillArea : PChar = 'IfillArea';
+	MwNdarkThemeAutomatic : PChar = 'IdarkThemeAutomatic';
 	MwNwaitMS : PChar = 'IwaitMS';
 	MwNtitle : PChar = 'Stitle';
 	MwNtext : PChar = 'Stext';
@@ -52,3 +53,4 @@ const
 	MwNbackgroundPixmap : PChar = 'VbackgroundPixmap';
 	MwNmonospaceFont : PChar = 'monospaceFont';
 	MwNboldMonospaceFont : PChar = 'boldMonospaceFont';
+	MwNvulkanConfig : PChar = 'VEvulkanConfig';
