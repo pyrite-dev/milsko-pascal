@@ -1,6 +1,7 @@
 var
 	MwBoxClass : Pointer; external name 'MwBoxClass';
 	MwButtonClass : Pointer; external name 'MwButtonClass';
+	MwCalendarClass : Pointer; external name 'MwCalendarClass';
 	MwCheckBoxClass : Pointer; external name 'MwCheckBoxClass';
 	MwEntryClass : Pointer; external name 'MwEntryClass';
 	MwFrameClass : Pointer; external name 'MwFrameClass';
@@ -17,5 +18,8 @@ var
 	MwRadioBoxClass : Pointer; external name 'MwRadioBoxClass';
 	MwComboBoxClass : Pointer; external name 'MwComboBoxClass';
 	MwTreeViewClass : Pointer; external name 'MwTreeViewClass';
+	MwSubWindowClass : Pointer; external name 'MwSubWindowClass';
+	MwTableClass : Pointer; external name 'MwTableClass';
+	MwTabClass : Pointer; external name 'MwTabClass';
 	MwOpenGLClass : Pointer; external name 'MwOpenGLClass';
 	MwVulkanClass : Pointer; external name 'MwVulkanClass';

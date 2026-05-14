@@ -56,6 +56,8 @@ function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cd
 
 (* Widget Button *)
 
+(* Widget Calendar *)
+
 (* Widget CheckBox *)
 
 (* Widget Entry *)
@@ -104,7 +106,18 @@ procedure MwComboBoxAdd(handle : MwWidget);
 (* Widget TreeView *)
 procedure MwTreeViewAdd(handle : MwWidget; parent : Pointer; pixmap : MwLLPixmap; item : PChar);
 procedure MwTreeViewDelete(handle : MwWidget; item : Pointer);
+procedure MwTreeViewSetOpened(handle : MwWidget; item : Pointer; opened : Integer);
+function MwTreeViewGetOpened(handle : MwWidget; item : Pointer) : Integer;
 procedure MwTreeViewReset(handle : MwWidget);
+
+(* Widget SubWindow *)
+function MwSubWindowGetFrame(handle : MwWidget) : MwWidget;
+
+(* Widget Table *)
+
+(* Widget Tab *)
+function MwTabAdd(handle : MwWidget; name : PChar) : MwWidget;
+function MwTabGetFrame(handle : MwWidget; name : PChar) : MwWidget;
 
 (* Widget OpenGL *)
 procedure MwOpenGLMakeCurrent(handle : MwWidget);

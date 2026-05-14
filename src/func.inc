@@ -2,6 +2,8 @@
 
 (* Widget Button *)
 
+(* Widget Calendar *)
+
 (* Widget CheckBox *)
 
 (* Widget Entry *)
@@ -133,9 +135,52 @@ begin
 	MwVaWidgetExecute(handle, 'mwTreeViewDelete', Nil, item);
 end;
 
+procedure MwTreeViewSetOpened(handle : MwWidget; item : Pointer; opened : Integer);
+begin
+	MwVaWidgetExecute(handle, 'mwTreeViewSetOpened', Nil, item, opened);
+end;
+
+function MwTreeViewGetOpened(handle : MwWidget; item : Pointer) : Integer;
+var
+	RetVal : Integer;
+begin
+	MwVaWidgetExecute(handle, 'mwTreeViewGetOpened', Pointer(@RetVal), item);
+MwTreeViewGetOpened := RetVal;
+end;
+
 procedure MwTreeViewReset(handle : MwWidget);
 begin
 	MwVaWidgetExecute(handle, 'mwTreeViewReset', Nil);
+end;
+
+
+(* Widget SubWindow *)
+function MwSubWindowGetFrame(handle : MwWidget) : MwWidget;
+var
+	RetVal : MwWidget;
+begin
+	MwVaWidgetExecute(handle, 'mwSubWindowGetFrame', Pointer(@RetVal));
+MwSubWindowGetFrame := RetVal;
+end;
+
+
+(* Widget Table *)
+
+(* Widget Tab *)
+function MwTabAdd(handle : MwWidget; name : PChar) : MwWidget;
+var
+	RetVal : MwWidget;
+begin
+	MwVaWidgetExecute(handle, 'mwTabAdd', Pointer(@RetVal), name);
+MwTabAdd := RetVal;
+end;
+
+function MwTabGetFrame(handle : MwWidget; name : PChar) : MwWidget;
+var
+	RetVal : MwWidget;
+begin
+	MwVaWidgetExecute(handle, 'mwTabGetFrame', Pointer(@RetVal), name);
+MwTabGetFrame := RetVal;
 end;
 
 
