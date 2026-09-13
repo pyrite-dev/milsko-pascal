@@ -2,7 +2,9 @@ var
 	MwBoxClass : Pointer; external name 'MwBoxClass';
 	MwButtonClass : Pointer; external name 'MwButtonClass';
 	MwCalendarClass : Pointer; external name 'MwCalendarClass';
+	MwChartClass : Pointer; external name 'MwChartClass';
 	MwCheckBoxClass : Pointer; external name 'MwCheckBoxClass';
+	MwClockClass : Pointer; external name 'MwClockClass';
 	MwEntryClass : Pointer; external name 'MwEntryClass';
 	MwFrameClass : Pointer; external name 'MwFrameClass';
 	MwImageClass : Pointer; external name 'MwImageClass';

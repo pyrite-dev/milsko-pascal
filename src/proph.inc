@@ -45,6 +45,10 @@ const
 	MwNcolumns : PChar = 'Icolumns';
 	MwNcolumnSpan : PChar = 'IcolumnSpan';
 	MwNrowSpan : PChar = 'IrowSpan';
+	MwNhour : PChar = 'Ihour';
+	MwNminute : PChar = 'Iminute';
+	MwNsecond : PChar = 'Isecond';
+	MwNtype : PChar = 'Itype';
 	MwNwaitMS : PChar = 'IwaitMS';
 	MwNtitle : PChar = 'Stitle';
 	MwNtext : PChar = 'Stext';

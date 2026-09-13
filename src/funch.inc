@@ -58,7 +58,13 @@ function MwMessageBoxGetChild(handle : MwWidget; child : Integer) : MwWidget; cd
 
 (* Widget Calendar *)
 
+(* Widget Chart *)
+function MwChartSet(handle : MwWidget; index : Integer; text : PChar; value : Double; color : PChar) : Integer;
+procedure MwChartDelete(handle : MwWidget; index : Integer);
+
 (* Widget CheckBox *)
+
+(* Widget Clock *)
 
 (* Widget Entry *)
 
@@ -101,7 +107,10 @@ procedure MwWindowMakeBorderless(handle : MwWidget);
 (* Widget RadioBox *)
 
 (* Widget ComboBox *)
-procedure MwComboBoxAdd(handle : MwWidget);
+procedure MwComboBoxAdd(handle : MwWidget; index : Integer; text : PChar);
+function MwComboBoxGet(handle : MwWidget; index : Integer; text : PChar) : PChar;
+procedure MwComboBoxDelete(handle : MwWidget; index : Integer);
+procedure MwComboBoxReset(handle : MwWidget);
 
 (* Widget TreeView *)
 procedure MwTreeViewAdd(handle : MwWidget; parent : Pointer; pixmap : MwLLPixmap; item : PChar);
@@ -118,6 +127,7 @@ function MwSubWindowGetFrame(handle : MwWidget) : MwWidget;
 (* Widget Tab *)
 function MwTabAdd(handle : MwWidget; name : PChar) : MwWidget;
 function MwTabGetFrame(handle : MwWidget; name : PChar) : MwWidget;
+procedure MwTabFocus(handle : MwWidget; name : PChar);
 
 (* Widget OpenGL *)
 procedure MwOpenGLMakeCurrent(handle : MwWidget);

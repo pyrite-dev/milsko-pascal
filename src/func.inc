@@ -4,7 +4,24 @@
 
 (* Widget Calendar *)
 
+(* Widget Chart *)
+function MwChartSet(handle : MwWidget; index : Integer; text : PChar; value : Double; color : PChar) : Integer;
+var
+	RetVal : Integer;
+begin
+	MwVaWidgetExecute(handle, 'mwChartSet', Pointer(@RetVal), index, text, value, color);
+MwChartSet := RetVal;
+end;
+
+procedure MwChartDelete(handle : MwWidget; index : Integer);
+begin
+	MwVaWidgetExecute(handle, 'mwChartDelete', Nil, index);
+end;
+
+
 (* Widget CheckBox *)
+
+(* Widget Clock *)
 
 (* Widget Entry *)
 
@@ -118,9 +135,27 @@ end;
 (* Widget RadioBox *)
 
 (* Widget ComboBox *)
-procedure MwComboBoxAdd(handle : MwWidget);
+procedure MwComboBoxAdd(handle : MwWidget; index : Integer; text : PChar);
 begin
-	MwVaWidgetExecute(handle, 'mwComboBoxAdd', Nil);
+	MwVaWidgetExecute(handle, 'mwComboBoxAdd', Nil, index, text);
+end;
+
+function MwComboBoxGet(handle : MwWidget; index : Integer; text : PChar) : PChar;
+var
+	RetVal : PChar;
+begin
+	MwVaWidgetExecute(handle, 'mwComboBoxGet', Pointer(@RetVal), index, text);
+MwComboBoxGet := RetVal;
+end;
+
+procedure MwComboBoxDelete(handle : MwWidget; index : Integer);
+begin
+	MwVaWidgetExecute(handle, 'mwComboBoxDelete', Nil, index);
+end;
+
+procedure MwComboBoxReset(handle : MwWidget);
+begin
+	MwVaWidgetExecute(handle, 'mwComboBoxReset', Nil);
 end;
 
 
@@ -181,6 +216,11 @@ var
 begin
 	MwVaWidgetExecute(handle, 'mwTabGetFrame', Pointer(@RetVal), name);
 MwTabGetFrame := RetVal;
+end;
+
+procedure MwTabFocus(handle : MwWidget; name : PChar);
+begin
+	MwVaWidgetExecute(handle, 'mwTabFocus', Nil, name);
 end;
 
 

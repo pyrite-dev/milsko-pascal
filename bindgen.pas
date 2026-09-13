@@ -38,6 +38,7 @@ begin
 	if (Node.NodeName = 'integer') and not(TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Integer';
 	if (Node.NodeName = 'short') and (TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Word';
 	if (Node.NodeName = 'short') and not(TDOMElement(Node).GetAttribute('unsigned') = 'yes') then TypeToPascal := TypeToPascal + 'Smallint';
+	if Node.NodeName = 'double' then TypeToPascal := TypeToPascal + 'Double';
 	if Node.NodeName = 'string' then TypeToPascal := TypeToPascal + 'PChar';
 	if Node.NodeName = 'class' then TypeToPascal := TypeToPascal + 'MwClass';
 	if Node.NodeName = 'pointer' then TypeToPascal := TypeToPascal + 'Pointer';
