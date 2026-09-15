@@ -66,6 +66,8 @@ procedure MwChartDelete(handle : MwWidget; index : Integer);
 
 (* Widget Clock *)
 
+(* Widget Document *)
+
 (* Widget Entry *)
 
 (* Widget Frame *)

@@ -23,6 +23,8 @@ end;
 
 (* Widget Clock *)
 
+(* Widget Document *)
+
 (* Widget Entry *)
 
 (* Widget Frame *)
